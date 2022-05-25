@@ -1,9 +1,9 @@
-
 /********************************************
              GAME : TIC TAC TOE
            Created By : AMIT YADAV
                 Branch : C.S.E
 ********************************************/
+
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -13,6 +13,7 @@
 
 char board[r][c];//making accessible to every function
 int numFC=0;//Number of cells filled
+int flag=0;
 struct Player
 {
     char name[30];
@@ -50,6 +51,12 @@ void printSpace ()
 /////////////////////////////////////////////////
 
 void viewStatus ();
+void clrscr()
+{
+     //printf("\e[1;1H\e[2J");
+     system("clear");
+     
+}
 void createBoard ()
 {
 //create 3X3 matrix of characters
@@ -62,9 +69,11 @@ void createBoard ()
             board[i][j]='-';
         }
     }
-    printf("\n\n*********New board has been set up**********\n\n");
+  
+    printf("\n*********New board has been set up**********\n");
     printf("\n**************9 Empty cells ***************\n");
-    viewStatus ();
+      viewStatus ();
+    
 }
 
 void createPlayers()
@@ -92,6 +101,7 @@ void tossCoin()
         printf("\n>>Choose zero or Cross ['0' / 'X'] to start the game : ");
         scanf("\n%c",&player[0].choice);
         player[1].choice=(player[0].choice=='0')?'X':'0';
+        flag=0;
     }
     else
     {
@@ -99,7 +109,9 @@ void tossCoin()
         printf("\n>>Choose Zero or Cross ['0' / 'X'] to start the game : ");
         scanf("\n%c",&player[1].choice);
         player[0].choice=(player[1].choice=='0')?'X':'0';
+        flag=1;
     }
+    clrscr();
 
 }
 void viewStatus ()
@@ -158,6 +170,7 @@ void getUserInput(int num)
     i=(cellNum-1)/3;
     j=(cellNum-1)%3;//can be found by multiplication
     board[i][j]=player[num].choice;
+    clrscr();
     viewStatus ();//view updated board
 }
 
@@ -201,7 +214,7 @@ int hasWon (struct Player *p)
 }
 void startGame()
 {
-    int num=0;//player number
+    int num=flag;//player number
     while(1)
     {
         if(num==0)//for first player num=0
@@ -252,6 +265,7 @@ int main()
         printf("\n>>DO YOU WANT TO PLAY AGAIN ? ( y / n ) : ");
         scanf("\n%c",&choice);
         while(getchar()!='\n');//to remove extra newline from buffer....
+        clrscr();
     } while(choice!='n');
     return 0;
 }
